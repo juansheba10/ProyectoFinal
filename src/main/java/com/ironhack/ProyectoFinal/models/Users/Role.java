@@ -1,38 +1,41 @@
 package com.ironhack.ProyectoFinal.models.Users;
 
+import com.ironhack.ProyectoFinal.models.Users.User;
 import jakarta.persistence.*;
 
 @Entity
 public class Role {
+
     @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
-    private Long roleId;
-    private String Role;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String role;
     @ManyToOne
+    @JoinColumn(name = "user_id")
     private User user;
 
-
-    public Role(){}
-
     public Role(String role, User user) {
-        Role = role;
+        this.role = role;
         this.user = user;
     }
 
-    public Long getRoleId() {
-        return roleId;
+    public Role() {
     }
 
-    public void setRoleId(Long roleId) {
-        this.roleId = roleId;
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getRole() {
-        return Role;
+        return role;
     }
 
     public void setRole(String role) {
-        Role = role;
+        this.role = role;
     }
 
     public User getUser() {

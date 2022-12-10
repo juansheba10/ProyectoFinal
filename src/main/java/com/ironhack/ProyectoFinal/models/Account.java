@@ -1,8 +1,10 @@
 package com.ironhack.ProyectoFinal.models;
 
+import com.ironhack.ProyectoFinal.Controllers.AccountController;
 import com.ironhack.ProyectoFinal.Enums.Status;
-import com.ironhack.ProyectoFinal.models.Owners.Owner;
-import com.ironhack.ProyectoFinal.models.Owners.SecondaryOwner;
+
+import com.ironhack.ProyectoFinal.models.Users.AccountHolder;
+import com.ironhack.ProyectoFinal.models.Users.User;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -10,50 +12,51 @@ import java.time.LocalDate;
 import java.util.Optional;
 
 @Entity
-public abstract class Account {
+public class Account {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long accountId;
     private String secretKey;
 
-    private BigDecimal balance;
+    private BigDecimal balance = new BigDecimal(1000);
     @ManyToOne
-    @JoinColumn(name = "owner_id")
-    private Owner owner;
+    @JoinColumn(name = "user_id")
+    private User primaryOwner;
 
     @ManyToOne
-    @JoinColumn(name = "secondary_owner_id")
-    private SecondaryOwner secondaryOwner;
+    private AccountHolder secondaryOwner;
     private BigDecimal penaltyFee = new BigDecimal(40);
-    private LocalDate creationDate;
-    private Status status;
+    private LocalDate creationDate = LocalDate.now();
+    private Status status = Status.ACTIVE;
 
-    public Optional<SecondaryOwner> getSecondaryOwner() {
+
+
+
+    public Optional<AccountHolder> getSecondaryOwner() {
 
         return Optional.ofNullable(this.secondaryOwner);
     }
 
-    public void setSecondaryOwner(SecondaryOwner secondaryOwner) {
+    public void setSecondaryOwner(AccountHolder secondaryOwner) {
+
         this.secondaryOwner = secondaryOwner;
     }
 
     public Account(){}
 
-    public Account(String secretKey, BigDecimal balance, Owner owner, SecondaryOwner secondaryOwner, BigDecimal penaltyFee, LocalDate creationDate, Status status) {
+    public Account(String secretKey, BigDecimal balance,AccountHolder primaryOwner, AccountHolder secondaryOwner) {
         this.secretKey = secretKey;
         this.balance = balance;
-        this.owner = owner;
+        this.primaryOwner = primaryOwner;
         this.secondaryOwner = secondaryOwner;
         this.penaltyFee = penaltyFee;
-        this.creationDate = creationDate;
-        this.status = status;
     }
 
-    public Account(String secretKey, BigDecimal balance, Owner owner, BigDecimal penaltyFee, LocalDate creationDate, Status status) {
+    public Account(String secretKey, BigDecimal balance, AccountHolder primaryOwner, LocalDate creationDate, Status status) {
         this.secretKey = secretKey;
         this.balance = balance;
-        this.owner = owner;
+        this.primaryOwner = primaryOwner;
         this.penaltyFee = penaltyFee;
         this.creationDate = creationDate;
         this.status = status;
@@ -75,12 +78,14 @@ public abstract class Account {
         this.secretKey = secretKey;
     }
 
-    public Owner getPrimaryOwner() {
-        return owner;
+    public User getPrimaryOwner() {
+
+        return primaryOwner;
     }
 
-    public void setPrimaryOwner(Owner owner) {
-        this.owner = owner;
+    public void setPrimaryOwner(User primaryOwner) {
+
+        this.primaryOwner = primaryOwner;
     }
 
     public BigDecimal getPenaltyFee() {
@@ -89,7 +94,7 @@ public abstract class Account {
 
     public void setPenaltyFee(BigDecimal penaltyFee) {
 
-        this.penaltyFee = new BigDecimal(40);
+        this.penaltyFee = penaltyFee;
     }
 
     public LocalDate getCreationDate() {
@@ -105,7 +110,7 @@ public abstract class Account {
     }
 
     public void setBalance(BigDecimal balance) {
-        this.balance = new BigDecimal(50);
+        this.balance = balance;
     }
 
     public Status getStatus() {
@@ -115,4 +120,8 @@ public abstract class Account {
     public void setStatus(Status status) {
         this.status = status;
     }
+
+
+
+
 }

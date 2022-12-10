@@ -1,8 +1,9 @@
 package com.ironhack.ProyectoFinal.models;
 
 import com.ironhack.ProyectoFinal.Enums.Status;
-import com.ironhack.ProyectoFinal.models.Owners.Owner;
-import com.ironhack.ProyectoFinal.models.Owners.SecondaryOwner;
+
+import com.ironhack.ProyectoFinal.models.Users.AccountHolder;
+import com.ironhack.ProyectoFinal.models.Users.User;
 import jakarta.persistence.Entity;
 
 import java.math.BigDecimal;
@@ -16,10 +17,7 @@ public class StudentChecking extends Account {
     public StudentChecking() {
     }
 
-    public StudentChecking(String secretKey, BigDecimal balance, Owner owner, SecondaryOwner secondaryOwner, BigDecimal penaltyFee, LocalDate creationDate, Status status) {
-        super(secretKey, balance, owner,secondaryOwner, penaltyFee, creationDate, status);
-
+    public StudentChecking(String secretKey, BigDecimal balance, AccountHolder primaryOwner, AccountHolder secondaryOwner) {
+        super(secretKey, balance, primaryOwner, secondaryOwner);
     }
-
-
 }

@@ -1,10 +1,14 @@
 package com.ironhack.ProyectoFinal.models;
 
-import com.ironhack.ProyectoFinal.models.Owners.Owner;
-import com.ironhack.ProyectoFinal.models.Owners.SecondaryOwner;
+
+import com.ironhack.ProyectoFinal.models.Users.AccountHolder;
+import com.ironhack.ProyectoFinal.models.Users.User;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Digits;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.time.LocalDate;
 import java.util.Optional;
 
 @Entity
@@ -15,45 +19,39 @@ public class CreditCard {
     private Long accountId;
     private BigDecimal balance;
     @ManyToOne
-    @JoinColumn(name = "owner_id")
-    private Owner owner;
+    @JoinColumn(name = "primary_owner")
+    private User primaryOwner;
 
     @ManyToOne
-    @JoinColumn(name = "secondary_owner_id")
-    private SecondaryOwner secondaryOwner;
-    private BigDecimal creditLimit;
-    private BigDecimal interestRate;
-    private BigDecimal penaltyFee;
+    private User secondaryOwner;
+    private BigDecimal creditLimit = new BigDecimal(100);
 
-    public Optional<SecondaryOwner> getSecondaryOwner() {
+    private LocalDate lastInterestDate;
+
+    private LocalDate creationDate = LocalDate.now();
+
+    @Digits(integer = 5, fraction = 4)
+    private BigDecimal interestRate = new BigDecimal("0.2");
+    private BigDecimal penaltyFee = new BigDecimal(40);
+
+    public Optional<User> getSecondaryOwner() {
         return Optional.ofNullable(secondaryOwner);
     }
 
-    public void setSecondaryOwner(SecondaryOwner secondaryOwner) {
+    public void setSecondaryOwner(User secondaryOwner) {
         this.secondaryOwner = secondaryOwner;
     }
 
 
     public CreditCard(){}
 
-    public CreditCard(BigDecimal balance, Owner owner, SecondaryOwner secondaryOwner, BigDecimal creditLimit, BigDecimal interestRate, BigDecimal penaltyFee) {
+    public CreditCard(BigDecimal balance, AccountHolder primaryOwner, BigDecimal interestRate, BigDecimal penaltyFee) {
         this.balance = balance;
-        this.owner = owner;
-        this.secondaryOwner = secondaryOwner;
+        this.primaryOwner = primaryOwner;
         this.creditLimit = creditLimit;
         this.interestRate = interestRate;
         this.penaltyFee = penaltyFee;
     }
-
-    public CreditCard(Owner owner, BigDecimal creditLimit, BigDecimal interestRate, BigDecimal penaltyFee) {
-        this.balance = balance;
-        this.owner = owner;
-        this.creditLimit = creditLimit;
-        this.interestRate = interestRate;
-        this.penaltyFee = penaltyFee;
-    }
-
-
 
     public Long getAccountId() {
         return accountId;
@@ -68,17 +66,35 @@ public class CreditCard {
     }
 
     public void setBalance(BigDecimal balance) {
-        this.balance = new BigDecimal(50);
+
+        this.balance = balance;
     }
 
-    public Owner getPrimaryOwner() {
-        return owner;
+    public User getPrimaryOwner() {
+
+        return primaryOwner;
     }
 
-    public void setPrimaryOwner(Owner owner) {
-        this.owner = owner;
+    public void setPrimaryOwner(AccountHolder primaryOwner) {
+
+        this.primaryOwner = primaryOwner;
     }
 
+    public LocalDate getLastInterestDate() {
+        return lastInterestDate;
+    }
+
+    public void setLastInterestDate(LocalDate lastInterestDate) {
+        this.lastInterestDate = lastInterestDate;
+    }
+
+    public LocalDate getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(LocalDate creationDate) {
+        this.creationDate = creationDate;
+    }
 
     public BigDecimal getCreditLimit() {
         return creditLimit;
@@ -86,7 +102,12 @@ public class CreditCard {
 
     public void setCreditLimit(BigDecimal creditLimit) {
 
-        this.creditLimit = new BigDecimal(100);
+        if (creditLimit.compareTo(new BigDecimal("100000")) >= 0){
+            creditLimit = new BigDecimal("100000");
+        } else if (creditLimit.compareTo(BigDecimal.ZERO) == 0){
+            creditLimit = new BigDecimal("100");
+        }
+        this.creditLimit = new BigDecimal("1000");
     }
 
     public BigDecimal getInterestRate() {
@@ -95,7 +116,13 @@ public class CreditCard {
 
     public void setInterestRate(BigDecimal interestRate) {
 
-        this.interestRate = new BigDecimal("0.2");
+        if (interestRate.compareTo(new BigDecimal("0.2")) < 0){
+            this.interestRate = interestRate;
+        } else if (interestRate.compareTo(new BigDecimal(BigInteger.ZERO)) == 0) {
+            this.interestRate = new BigDecimal("0.1");
+        } else {
+            this.interestRate = new BigDecimal("0.2");
+        }
     }
 
     public BigDecimal getPenaltyFee() {
@@ -103,6 +130,20 @@ public class CreditCard {
     }
 
     public void setPenaltyFee(BigDecimal penaltyFee) {
-        this.penaltyFee = penaltyFee;
+        this.penaltyFee = new BigDecimal(40);
+    }
+
+    public void applyInterestRate(){
+        LocalDate date = LocalDate.now();
+        LocalDate lastInterest = this.lastInterestDate;
+
+        if (lastInterest == null){
+            lastInterest = getCreationDate();
+        }
+        if (date.isAfter(lastInterest.plusYears(1))){
+            BigDecimal interest = getBalance().multiply(interestRate);
+            setBalance(getBalance().add(interest));
+            this.lastInterestDate = date;
+        }
     }
 }
