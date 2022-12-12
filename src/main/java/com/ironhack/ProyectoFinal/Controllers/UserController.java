@@ -112,7 +112,7 @@ public class UserController {
     }
 
 
-    @PostMapping("admin/add")
+    @PostMapping("/admin/add")
     @ResponseStatus(HttpStatus.CREATED)
     public User addAdmin(@RequestBody Admin admin){
         String encodedPassword = passwordEncoder.encode(admin.getPassword());
@@ -121,7 +121,7 @@ public class UserController {
         return admin;
     }
 
-    @PostMapping("user/holder/transfer")
+    @PostMapping("/user/holder/transfer")
     @ResponseStatus(HttpStatus.CREATED)
     public TransferMoney transferMoney(@RequestBody TransferDTO transferDTO){
         savingAccountService.findAccountById(transferDTO.getSendAccountID());
@@ -140,4 +140,5 @@ public class UserController {
     public TransferMoney transferMoney(@RequestHeader String hashedKey, @RequestBody ThirdPartyDTO thirdPartyDTO) throws NoSuchAlgorithmException {
         return userService.thirdPartyTransferMoney(hashedKey,thirdPartyDTO);
     }
+
 }

@@ -55,8 +55,10 @@ public class ProyectoFinalApplication implements CommandLineRunner {
         User user1 = new Admin("Juus", "2526");
         Admin admin = new Admin("Juan Soto", passwordEncoder.encode("25725816"));
 		ThirdParty thirdParty = new ThirdParty("Juan", passwordEncoder.encode("jss"), "hsss");
-		StudentChecking studentChecking = new StudentChecking("2572", new BigDecimal(1000), primaryOwner, primaryOwner);
-		SavingAccount savingAccount = new SavingAccount("2572", new BigDecimal(50),primaryOwner,primaryOwner1,new BigDecimal("0.2"), new BigDecimal(100));
+		StudentChecking studentChecking = new StudentChecking("2572", new BigDecimal(1000), primaryOwner);
+		studentChecking.setSecondaryOwner(primaryOwner1);
+
+		SavingAccount savingAccount = new SavingAccount("2572", new BigDecimal(50),primaryOwner,new BigDecimal("0.2"), new BigDecimal(100));
 		CreditCard creditCard = new CreditCard(new BigDecimal(22), primaryOwner, new BigDecimal("1.00"), new BigDecimal("0.5"));
 
 

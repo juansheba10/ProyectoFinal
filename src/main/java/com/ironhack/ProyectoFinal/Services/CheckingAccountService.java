@@ -56,7 +56,7 @@ public class CheckingAccountService {
             Account studentChecking = new StudentChecking(accountDTO.getSecretKey(), accountDTO.getBalance(),primaryOwner, secondaryOwner);
             return accountRepository.save(studentChecking);
         } else {
-            Account checkingAccount = new CheckingAccount(accountDTO.getSecretKey(), accountDTO.getBalance(), primaryOwner, secondaryOwner, accountDTO.getMinimumBalance(), accountDTO.getMonthlyMaintenanceFee());
+            Account checkingAccount = new CheckingAccount(accountDTO.getSecretKey(), accountDTO.getBalance(), primaryOwner, accountDTO.getMinimumBalance(), accountDTO.getMonthlyMaintenanceFee());
             return accountRepository.save(checkingAccount);
         }
     }

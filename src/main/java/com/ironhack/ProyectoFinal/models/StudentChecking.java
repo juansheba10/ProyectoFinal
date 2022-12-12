@@ -18,6 +18,10 @@ public class StudentChecking extends Account {
     }
 
     public StudentChecking(String secretKey, BigDecimal balance, AccountHolder primaryOwner, AccountHolder secondaryOwner) {
-        super(secretKey, balance, primaryOwner, secondaryOwner);
+        super(secretKey, balance, primaryOwner);
+    }
+
+    public StudentChecking(String secretKey, BigDecimal balance, AccountHolder primaryOwner) {
+        super(secretKey, balance, primaryOwner);
     }
 }

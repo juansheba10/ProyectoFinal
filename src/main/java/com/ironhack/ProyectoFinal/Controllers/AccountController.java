@@ -44,7 +44,7 @@ public class AccountController {
     @Autowired
     PasswordEncoder passwordEncoder;
 
-    @GetMapping("/admin/all")
+    @GetMapping("/admin/users/all")
     @ResponseStatus(HttpStatus.OK)
     public List<Account> findAllAccounts(){
         return accountServices.findAllAccounts();
@@ -73,13 +73,13 @@ public class AccountController {
 
     @PostMapping("admin/accounts-add")
     @ResponseStatus(HttpStatus.CREATED)
-    public Account addCount(@RequestBody Account account){
+    public Account addACount(@RequestBody Account account){
         String encodedPassword = passwordEncoder.encode(account.getSecretKey());
         account.setSecretKey(encodedPassword);
         return accountServices.addAccount(account);
     }
 
-    @GetMapping("/admin/penalty/saving-account/id/{id}")
+    @PutMapping("/admin/penalty/saving-account/id/{id}")
     @ResponseStatus(HttpStatus.OK)
     public void applyPenaltyFeeSaving(@PathVariable Long id){
 
@@ -109,7 +109,7 @@ public class AccountController {
 
     }
 
-    @DeleteMapping("/admin/delete-accounts/{id}")
+    @DeleteMapping("/admin/delete-accounts/id/{id}")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void deleteAccountById(@PathVariable Long id){
         accountServices.deleteAccountById(id);

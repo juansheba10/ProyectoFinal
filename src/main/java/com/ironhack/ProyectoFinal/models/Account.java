@@ -45,11 +45,10 @@ public class Account {
 
     public Account(){}
 
-    public Account(String secretKey, BigDecimal balance,AccountHolder primaryOwner, AccountHolder secondaryOwner) {
+    public Account(String secretKey, BigDecimal balance,AccountHolder primaryOwner) {
         this.secretKey = secretKey;
         this.balance = balance;
         this.primaryOwner = primaryOwner;
-        this.secondaryOwner = secondaryOwner;
         this.penaltyFee = penaltyFee;
     }
 
