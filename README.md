@@ -50,10 +50,6 @@ The project includes the following REST controllers for accessing and managing a
 - `POST /admin/add`: Adds a new Admin user to the system. The request body should include the user details, such as the name and password.
 
 
-
-Try again
-
-
 ## Getting Started
 
 1. Install the required dependencies.
