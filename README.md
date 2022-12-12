@@ -27,6 +27,20 @@ This project provides a system for managing bank accounts, including Checking, S
 - AccountHolders can access the balance of their own accounts and transfer money between them using the provided REST controllers.
 - ThirdParty users can receive and send money to other accounts using the provided REST controllers.
 
+## REST Controllers
+
+The project includes the following REST controllers for accessing and managing accounts:
+
+- `POST /admin/accounts-add`: Adds a new account to the system. The request body should include the account details, such as the account type, primary owner, and secret key. The secret key will be encrypted before being stored in the system. The response will include the details of the newly created account.
+- `GET /admin/users/all`: Retrieves a list of all accounts in the system. The response will include the details of each account.
+- `GET /admin/id/{id}`: Retrieves the details of the account with the specified ID. The response will include the details of the requested account.
+- `GET /penalty/id/{id}`: Applies the penalty fee to the Checking account with the specified ID. The response will be empty.
+- `POST /admin/saving-accounts/add`: Adds a new Savings account to the system. The request body should include the account details, such as the primary owner and interest rate. The response will include the details of the newly created account.
+- `PUT /admin/penalty/saving-account/id/{id}`: Applies the penalty fee to the Savings account with the specified ID. The response will be empty.
+- `POST /admin/student-accounts/add`: Adds a new StudentChecking account to the system. The request body should include the account details, such as the primary owner and secret key. The secret key will be encrypted before being stored in the system. The response will include the details of the newly created account.
+- `POST /admin/checking-accounts/add`: Adds a new Checking account to the system. The request body should include the account details, such as the primary owner and account type. The response will include the details of the
+
+
 ## Getting Started
 
 1. Install the required dependencies.
