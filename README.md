@@ -38,7 +38,20 @@ The project includes the following REST controllers for accessing and managing a
 - `POST /admin/saving-accounts/add`: Adds a new Savings account to the system. The request body should include the account details, such as the primary owner and interest rate. The response will include the details of the newly created account.
 - `PUT /admin/penalty/saving-account/id/{id}`: Applies the penalty fee to the Savings account with the specified ID. The response will be empty.
 - `POST /admin/student-accounts/add`: Adds a new StudentChecking account to the system. The request body should include the account details, such as the primary owner and secret key. The secret key will be encrypted before being stored in the system. The response will include the details of the newly created account.
-- `POST /admin/checking-accounts/add`: Adds a new Checking account to the system. The request body should include the account details, such as the primary owner and account type. The response will include the details of the
+- `POST /admin/checking-accounts/add`: Adds a new Checking account to the system. The request body should include the account details, such as the primary owner and account type. The response will include the details of the new account created.
+- - `GET /admin/user/all`: Retrieves a list of all users in the system. The response will include the details of each user.
+- `GET /admin/id/{id}`: Retrieves the details of the user with the specified ID. The response will include the details of the requested user.
+- `GET /admin/hashedkey/{hashedKey}`: Retrieves the details of the ThirdParty user with the specified hashed key. The response will include the details of the requested user.
+- `POST /admin/account-holder/add`: Adds a new AccountHolder user to the system. The request body should include the user details, such as the name, date of birth, and password. The password will be encrypted before being stored in the system. The response will include the details of the newly created user.
+- `GET /user/user-details/`: Retrieves the details of the currently authenticated user. The response will include the details of the authenticated user.
+- `POST /admin/user-thirdparty/add`: Adds a new ThirdParty user to the system. The request body should include the user details, such as the name and hashed key. The response will include the details of the newly created user.
+- `GET /user/balance/{id}`: Retrieves the balance of the account with the specified ID. The response will include the balance of the requested account.
+- `POST /admin/balance/{id}/update`: Updates the balance of the account with the specified ID. The request body should include the new balance. The response will include the details of the updated account.
+- `POST /admin/add`: Adds a new Admin user to the system. The request body should include the user details, such as the name and password.
+
+
+
+Try again
 
 
 ## Getting Started
